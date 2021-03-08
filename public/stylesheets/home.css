@@ -1,0 +1,80 @@
+body {
+  color: #454552;
+  overflow: hidden;
+}
+
+nav {
+  height: 56px;
+  font-size: 16px;
+}
+
+.outer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 36px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10%;
+  padding-right: 10%;
+  overflow: scroll;
+  max-height: calc(100vh - 56px);
+}
+
+.content-box {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  margin-top: 20px;
+}
+
+.car-details {
+  margin-top: 10px;
+}
+
+a {
+  color: #609fd0;
+}
+
+.car-card {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  width: 120px;
+  text-align: left;
+}
+
+.car-input {
+  width: 60%;
+  min-width: 350px;
+  max-width: 500px;
+}
+
+.submit-btn {
+  background-color: #609fd0;
+  border: #609fd0;
+  color: white;
+  width: 30%;
+  margin-top: 30px;
+}
+
+.submit-btn:active,
+.submit-btn:focus,
+.submit-btn:hover {
+  background-color: #3479b0;
+}
+
+#post-info-title {
+  margin-bottom: 30px;
+}
+
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .nav-item .nav-link:focus,
+.navbar-light .nav-item:hover .nav-link {
+  color: #609fd0;
+}

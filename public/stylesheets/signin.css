@@ -14,9 +14,11 @@ body {
   border: #609fd0;
   color: white;
   width: 300px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
+.btn:active,
+.btn:focus,
 .btn:hover {
   background-color: #3479b0;
 }

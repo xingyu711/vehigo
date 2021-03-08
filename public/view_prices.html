@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VehiGo View Prices</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./stylesheets/home.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="view_prices.html"
+                >View Car Prices</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="post_info.html">Post Your Info</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                data-bs-toggle="dropdown"
+                href=""
+                role="button"
+                aria-expanded="false"
+                >Xingyu Lai</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="index.html">Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="row outer-container">
+      <div class="col-12 search-box">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search for a manufacturer or model like “BMW M3”"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="button-addon2"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+      <div class="col-12 content-box">
+        <div class="card car-card">
+          <div class="card-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="card-title">
+                    Ford Mustang Shelby Gt500 Coupe, Year 2012 - $39,990
+                  </h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-sm-12 car-details">
+                  Manufacturer: Ford
+                </div>
+                <div class="col-lg-6 col-sm-12 car-details">
+                  Model: Mustang Shelby Gt500 Coupe
+                </div>
+                <div class="col-lg-2 col-sm-12 car-details">Year: 2012</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-sm-12 car-details">Price: $39,900</div>
+                <div class="col-lg-6 col-sm-12 car-details">
+                  Odometer: 9629 km
+                </div>
+                <div class="col-lg-2 col-sm-12 car-details">Drive: RWD</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-sm-12 car-details">Fuel: Gas</div>
+                <div class="col-lg-6 col-sm-12 car-details">
+                  Transmission: Other
+                </div>
+                <div class="col-lg-2 col-sm-12 car-details">State: AL</div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-12">
+                  <a href="#" class="card-link">Save to My Collections</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card car-card">
+          <div class="card-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="card-title">
+                    Chevrolet Corvette Grand Sport 2010 - $35,990
+                  </h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-sm-12 car-details">
+                  Manufacturer: Chevrolet
+                </div>
+                <div class="col-lg-6 col-sm-12 car-details">
+                  Model: Corvette Grand Sport
+                </div>
+                <div class="col-lg-2 col-sm-12 car-details">Year: 2010</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-sm-12 car-details">Price: $35,990</div>
+                <div class="col-lg-6 col-sm-12 car-details">
+                  Odometer: 32742 km
+                </div>
+                <div class="col-lg-2 col-sm-12 car-details">Drive: RWD</div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-sm-12 car-details">Fuel: Gas</div>
+                <div class="col-lg-6 col-sm-12 car-details">
+                  Transmission: Automatic
+                </div>
+                <div class="col-lg-2 col-sm-12 car-details">State: AL</div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-12">
+                  <a href="#" class="card-link">Save to My Collections</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

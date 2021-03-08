@@ -10,6 +10,7 @@ a {
 nav {
   height: 56px;
   font-size: 16px;
+  position: absolute;
 }
 
 img {
@@ -43,7 +44,7 @@ p {
 
 #vehigo-logo {
   width: auto;
-  max-width: 80%;
+  max-width: 70%;
 }
 
 .input-group {
