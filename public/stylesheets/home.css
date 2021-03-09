@@ -33,6 +33,7 @@ nav {
 
 .car-details {
   margin-top: 10px;
+  text-transform: capitalize;
 }
 
 a {
@@ -42,6 +43,11 @@ a {
 .car-card {
   margin-bottom: 20px;
   text-align: left;
+}
+
+h5 {
+  text-transform: capitalize;
+  font-weight: normal;
 }
 
 label {
@@ -77,4 +83,8 @@ label {
 .navbar-light .nav-item .nav-link:focus,
 .navbar-light .nav-item:hover .nav-link {
   color: #609fd0;
+}
+
+.upper {
+  text-transform: uppercase;
 }
