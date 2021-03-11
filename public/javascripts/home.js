@@ -1,4 +1,4 @@
-const contentBox = document.querySelector('.content-box');
+const collectionsBox = document.querySelector('.collections-box');
 
 function renderCard(item) {
   const {
@@ -46,40 +46,59 @@ function renderCard(item) {
         <hr />
         <div class="row">
           <div class="col-12">
-            <a href="#" onclick="saveCar('${_id}')" class="card-link">
-              Save to My Collections
+            <a href="#" onclick="unsaveCar('${_id}')" class="card-link">
+              Unsave
             </a>
           </div>
         </div>
       </div>
     </div>`;
 
-  contentBox.appendChild(divCard);
+  collectionsBox.appendChild(divCard);
 }
 
-async function loadData() {
-  const resRaw = await fetch('/getData');
-  const res = await resRaw.json();
-
-  console.log('Got data', res.data);
-  contentBox.innerHTML = '';
-
-  res.data.forEach((item) => {
-    renderCard(item);
-  });
-}
-
-loadData();
-
-async function saveCar(car_id) {
+async function loadCollections() {
   // TODO: need to use actual username!!
-  const data = { username: 'xingyu711', car_id: car_id };
-  const response = await fetch('/saveCar', {
+  const data = { username: 'xingyu711' };
+
+  const resRaw = await fetch('/getCollections', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
-  console.log(response.json());
+
+  const res = await resRaw.json();
+  // console.log('Got data', res.data);
+
+  // render card if we have data
+  if (res.data.length > 0) {
+    collectionsBox.innerHTML = '';
+
+    res.data.forEach((item) => {
+      renderCard(item);
+    });
+  } else {
+    // user does not have anything in the collections
+    collectionsBox.innerHTML = `<p>You don't have any collections</p>`;
+  }
+}
+
+// call the function to load collections everytime we come to home page
+loadCollections();
+
+async function unsaveCar(car_id) {
+  // TODO: need to use actual username!!
+  const data = { username: 'xingyu711', car_id: car_id };
+  const response = await fetch('/unsaveCar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  // need to reload the collections when user delete data from collections
+  loadCollections();
 }
