@@ -124,9 +124,84 @@ async function getUserCollections(username) {
   }
 }
 
+async function getUserPosts(username) {
+  let client;
+
+  try {
+    client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const cars = db.collection('cars');
+
+    // query using username and get all cars posted by this user
+    const query = { username: username };
+    const userPosts = await cars.find(query).toArray();
+
+    // console.log('user posted cars (db): ', userPosts);
+
+    return userPosts;
+  } finally {
+    client.close();
+  }
+}
+
+async function addCarData(carData) {
+  let client;
+
+  try {
+    client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const cars = db.collection('cars');
+
+    // console.log('car data:', carData);
+
+    const result = await cars.insertOne(carData);
+
+    console.log(
+      `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`
+    );
+  } finally {
+    client.close();
+  }
+}
+
+async function deleteFromPosts(username, carId) {
+  let client;
+
+  try {
+    client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const users = db.collection('users');
+    const cars = db.collection('cars');
+
+    // delete by car id
+    const query = { _id: new ObjectId(carId) };
+    const result = await cars.deleteOne(query);
+
+    // FOR DEBUGGING
+    // if (result.deletedCount === 1) {
+    //   console.dir('Successfully deleted one document.');
+    // } else {
+    //   console.log('No documents matched the query. Deleted 0 documents.');
+    // }
+
+    // TODO: also delete this document from ANY user's collections if exists
+  } finally {
+    client.close();
+  }
+}
+
 module.exports = {
   getData,
   addToCollections,
   deleteFromCollections,
   getUserCollections,
+  getUserPosts,
+  addCarData,
+  deleteFromPosts,
 };

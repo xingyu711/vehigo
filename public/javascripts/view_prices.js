@@ -61,7 +61,7 @@ async function loadData() {
   const resRaw = await fetch('/getData');
   const res = await resRaw.json();
 
-  console.log('Got data', res.data);
+  // console.log('Got data', res.data);
   contentBox.innerHTML = '';
 
   res.data.forEach((item) => {
@@ -72,8 +72,7 @@ async function loadData() {
 loadData();
 
 async function saveCar(car_id) {
-  // TODO: need to use actual username!!
-  const data = { username: 'xingyu711', car_id: car_id };
+  const data = { car_id: car_id };
   const response = await fetch('/saveCar', {
     method: 'POST',
     headers: {
