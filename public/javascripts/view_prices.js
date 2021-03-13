@@ -61,7 +61,12 @@ async function loadData() {
   const resRaw = await fetch('/getData');
   const res = await resRaw.json();
 
-  // console.log('Got data', res.data);
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
+
   contentBox.innerHTML = '';
 
   res.data.forEach((item) => {
@@ -73,12 +78,17 @@ loadData();
 
 async function saveCar(car_id) {
   const data = { car_id: car_id };
-  const response = await fetch('/saveCar', {
+  const resRaw = await fetch('/saveCar', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
-  console.log(response.json());
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
 }

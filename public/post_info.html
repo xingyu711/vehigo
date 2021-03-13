@@ -46,12 +46,13 @@
                 class="nav-link dropdown-toggle"
                 data-bs-toggle="dropdown"
                 href=""
+                id="navbar-person-name"
                 role="button"
                 aria-expanded="false"
-                >Xingyu Lai</a
+                >Loading...</a
               >
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="index.html">Log Out</a></li>
+                <li><a class="dropdown-item" id="logout-button" href="index.html" onclick="onLogoutButtonClick()">Log Out</a></li>
               </ul>
             </li>
           </ul>
@@ -187,5 +188,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="./javascripts/post_info.js"></script>
+    <script src="./javascripts/common.js"></script>
   </body>
 </html>

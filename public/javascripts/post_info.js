@@ -3,12 +3,8 @@ const successMessage = document.querySelector('#success-message');
 
 async function onFormCarSubmit(event) {
   event.preventDefault();
-  // TODO: get actual username from session
-  const username = 'xingyu711';
 
   const formData = new FormData(formCar);
-  console.log('form data', formData);
-  console.log('posting data');
 
   const data = {
     manufacturer: formData.get('manufacturer'),
@@ -20,12 +16,9 @@ async function onFormCarSubmit(event) {
     fuel: formData.get('fuel'),
     drive: formData.get('drive'),
     state: formData.get('state'),
-    username: username,
   };
 
-  console.log('data', data);
-
-  const res = await fetch('/postInfo', {
+  const resRaw = await fetch('/postInfo', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +26,14 @@ async function onFormCarSubmit(event) {
     body: JSON.stringify(data),
   });
 
-  if (res.ok) {
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
+
+  // successfully post data
+  if (resRaw.ok) {
     // reset form content
     formCar.reset();
 
@@ -43,6 +43,4 @@ async function onFormCarSubmit(event) {
     await delay(3000);
     successMessage.innerHTML = '';
   }
-
-  console.log('res', res);
 }

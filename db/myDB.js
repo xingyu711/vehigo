@@ -52,8 +52,11 @@ async function addToCollections(username, carId) {
     // check duplicates: avoid adding repetitive data to user's collections
     const document = await users.findOne(filter);
     const existingList = document.saved_cars;
-    if (!existingList.includes(carId)) {
-      // update document
+
+    // if the user do not have anything in his or her collections
+    // or the user's existing list does not have the new car id
+    // update document
+    if (!existingList || !existingList.includes(carId)) {
       await users.updateOne(filter, updateDoc);
     }
   } finally {
@@ -106,19 +109,27 @@ async function getUserCollections(username) {
     const users = db.collection('users');
     const cars = db.collection('cars');
 
+    if (!username) {
+      return [];
+    }
+
     // filter using username and get saved cars ids
     const filter = { username: username };
     const document = await users.findOne(filter);
     const savedCarIds = document.saved_cars;
 
-    // find all documents in cars having these car ids
-    const savedCars = await cars
-      .find({
-        _id: { $in: savedCarIds.map((id) => new ObjectId(id)) },
-      })
-      .toArray();
+    if (savedCarIds) {
+      // find all documents in cars having these car ids
+      const savedCars = await cars
+        .find({
+          _id: { $in: savedCarIds.map((id) => new ObjectId(id)) },
+        })
+        .toArray();
+      return savedCars;
+    }
 
-    return savedCars;
+    // if the user haven't yet save any cars
+    return [];
   } finally {
     client.close();
   }
@@ -134,11 +145,12 @@ async function getUserPosts(username) {
     const db = client.db(DB_NAME);
     const cars = db.collection('cars');
 
+    if (!username) {
+      return [];
+    }
     // query using username and get all cars posted by this user
     const query = { username: username };
     const userPosts = await cars.find(query).toArray();
-
-    // console.log('user posted cars (db): ', userPosts);
 
     return userPosts;
   } finally {
@@ -156,13 +168,7 @@ async function addCarData(carData) {
     const db = client.db(DB_NAME);
     const cars = db.collection('cars');
 
-    // console.log('car data:', carData);
-
     const result = await cars.insertOne(carData);
-
-    console.log(
-      `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`
-    );
   } finally {
     client.close();
   }
@@ -183,14 +189,94 @@ async function deleteFromPosts(username, carId) {
     const query = { _id: new ObjectId(carId) };
     const result = await cars.deleteOne(query);
 
-    // FOR DEBUGGING
-    // if (result.deletedCount === 1) {
-    //   console.dir('Successfully deleted one document.');
-    // } else {
-    //   console.log('No documents matched the query. Deleted 0 documents.');
-    // }
-
     // TODO: also delete this document from ANY user's collections if exists
+  } finally {
+    client.close();
+  }
+}
+
+async function validateUser(username, password) {
+  let client;
+
+  try {
+    client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const users = db.collection('users');
+
+    // get this user from db
+    const currentUser = await users.findOne({ username: username });
+
+    // if username not found, return
+    if (currentUser == null) {
+      return 'not found';
+    }
+
+    // check password
+    const passwordDB = currentUser.password;
+    // console.log('(db) password in db:', passwordDB);
+    if (password == passwordDB) {
+      return 'success';
+    } else {
+      return 'wrong password';
+    }
+  } finally {
+    client.close();
+  }
+}
+
+async function registerUser(username, password, firstname, lastname) {
+  let client;
+
+  try {
+    client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const users = db.collection('users');
+
+    // check if the username already exist
+    const currentUser = await users.findOne({ username: username });
+    // if username not found, return
+    if (currentUser != null) {
+      return 'username alreay exists';
+    }
+
+    // else: save the user info into db
+    const newUser = {
+      username: username,
+      password: password,
+      first_name: firstname,
+      last_name: lastname,
+    };
+    await users.insertOne(newUser);
+
+    return 'success';
+  } finally {
+    client.close();
+  }
+}
+
+async function getUserDisplayName(username) {
+  let client;
+
+  try {
+    client = new MongoClient(uri, { useUnifiedTopology: true });
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const users = db.collection('users');
+
+    if (!username) {
+      return {};
+    }
+
+    // get this user from db
+    const currentUser = await users.findOne({ username: username });
+    const displayName = currentUser.first_name + ' ' + currentUser.last_name;
+
+    return displayName;
   } finally {
     client.close();
   }
@@ -204,4 +290,7 @@ module.exports = {
   getUserPosts,
   addCarData,
   deleteFromPosts,
+  validateUser,
+  registerUser,
+  getUserDisplayName,
 };

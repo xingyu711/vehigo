@@ -13,17 +13,19 @@
     <link rel="stylesheet" href="./stylesheets/signin.css" />
   </head>
   <body>
+    <div class="alert alert-danger" role="alert"></div>
     <div class="container">
       <div id="content-box">
         <img src="./images/vehigo_logo.svg" alt="VehiGo Logo" />
         <p>Welcome Back</p>
 
-        <form>
+        <form id="form-login" onsubmit="onFormLoginSubmit(event)">
           <div class="form-floating mb-4">
             <input
               type="text"
               class="form-control"
               id="usernameInput"
+              name="username"
               placeholder="Username"
             />
             <label for="usernameInput">Username</label>
@@ -33,12 +35,13 @@
               type="password"
               class="form-control"
               id="passwordInput"
+              name="password"
               placeholder="Password"
             />
             <label for="passwordInput">Password</label>
           </div>
 
-          <button type="button" class="btn btn-primary btn-lg">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-lg">Sign In</button>
         </form>
 
         <div class="footer-text">
@@ -47,5 +50,11 @@
         </div>
       </div>
     </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./javascripts/signin.js"></script>
   </body>
 </html>

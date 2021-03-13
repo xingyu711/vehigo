@@ -63,6 +63,11 @@ async function loadPosts() {
   const res = await resRaw.json();
   // console.log('Got posts data frontend', res.data);
 
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+  }
+
   // render card if we have data
   if (res.data.length > 0) {
     postsBox.innerHTML = '';
@@ -80,6 +85,12 @@ async function loadCollections() {
   const resRaw = await fetch('/getCollections');
   const res = await resRaw.json();
   // console.log('Got data', res.data);
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
 
   // render card if we have data
   if (res.data.length > 0) {
@@ -107,13 +118,19 @@ async function onClick(car_id, type) {
 async function unsaveCar(car_id) {
   console.log('calling unsaveCar');
   const data = { car_id: car_id };
-  await fetch('/unsaveCar', {
+  const resRaw = await fetch('/unsaveCar', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
 
   // need to reload the collections when user delete data from collections
   loadCollections();
@@ -121,13 +138,19 @@ async function unsaveCar(car_id) {
 
 async function deletePost(car_id) {
   const data = { car_id: car_id };
-  await fetch('/deletePost', {
+  const resRaw = await fetch('/deletePost', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
 
   // need to reload the collections when user delete data from collections
   loadPosts();
