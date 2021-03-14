@@ -195,7 +195,7 @@ async function deleteFromPosts(username, carId) {
   }
 }
 
-async function validateUser(username, password) {
+async function getPassword(username) {
   let client;
 
   try {
@@ -208,19 +208,12 @@ async function validateUser(username, password) {
     // get this user from db
     const currentUser = await users.findOne({ username: username });
 
-    // if username not found, return
+    // if username not found, return null
     if (currentUser == null) {
-      return 'not found';
+      return null;
     }
 
-    // check password
-    const passwordDB = currentUser.password;
-    // console.log('(db) password in db:', passwordDB);
-    if (password == passwordDB) {
-      return 'success';
-    } else {
-      return 'wrong password';
-    }
+    return currentUser.password;
   } finally {
     client.close();
   }
@@ -290,7 +283,7 @@ module.exports = {
   getUserPosts,
   addCarData,
   deleteFromPosts,
-  validateUser,
+  getPassword,
   registerUser,
   getUserDisplayName,
 };

@@ -1,7 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 const myDB = require('../db/myDB.js');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 function auth(req, res) {
   if (!req.session.username) {
@@ -135,15 +138,19 @@ router.post('/userLogin', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     // ask db to validate this user
-    const msg = await myDB.validateUser(username, password);
+    const hash = await myDB.getPassword(username);
 
-    // successfully loged in
-    if (msg === 'success') {
-      // save username to session
-      req.session.username = username;
-      res.sendStatus(200);
+    // user does not exist
+    if (hash == null) {
+      res.status(401).send({ login: 'not found' });
     } else {
-      res.status(401).send({ login: msg });
+      const match = await bcrypt.compare(password, hash);
+      if (match == true) {
+        req.session.username = username;
+        res.sendStatus(200);
+      } else {
+        res.status(401).send({ login: 'wrong password' });
+      }
     }
   } catch (e) {
     console.log('Error', e);
@@ -158,19 +165,17 @@ router.post('/userRegister', async (req, res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
 
-    const msg = await myDB.registerUser(
-      username,
-      password,
-      firstname,
-      lastname
-    );
-    if (msg === 'success') {
-      // save username to session
-      req.session.username = username;
-      res.sendStatus(200);
-    } else {
-      res.status(409).send({ register: msg });
-    }
+    // hash password and save to db
+    await bcrypt.hash(password, saltRounds, async function (err, hash) {
+      const msg = await myDB.registerUser(username, hash, firstname, lastname);
+      if (msg === 'success') {
+        // save username to session
+        req.session.username = username;
+        res.sendStatus(200);
+      } else {
+        res.status(409).send({ register: msg });
+      }
+    });
   } catch (e) {
     console.log('Error', e);
     res.status(400).send({ err: e });
