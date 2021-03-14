@@ -1,11 +1,11 @@
-const navbarUsername = document.querySelector('#navbar-person-name');
+const navbarUsername = document.querySelector("#navbar-person-name");
 
 async function displayPersonName() {
-  const resRaw = await fetch('/getPersonName');
+  const resRaw = await fetch("/getPersonName");
 
   // if user is not logged in
   if (resRaw.status === 401) {
-    window.location.assign('/signin.html');
+    window.location.assign("/signin.html");
     return;
   }
 
@@ -14,11 +14,11 @@ async function displayPersonName() {
 }
 
 async function onLogoutButtonClick() {
-  const resRaw = await fetch('/userLogout');
+  const resRaw = await fetch("/userLogout");
 
   // if user is not logged in
   if (resRaw.status === 401) {
-    window.location.assign('/signin.html');
+    window.location.assign("/signin.html");
     return;
   }
 }
