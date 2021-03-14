@@ -1,6 +1,7 @@
 const collectionsBox = document.querySelector('.collections-box');
+const postsBox = document.querySelector('.posts-box');
 
-function renderCard(item) {
+function renderCard(item, type, parent) {
   const {
     _id,
     manufacturer,
@@ -46,52 +47,78 @@ function renderCard(item) {
         <hr />
         <div class="row">
           <div class="col-12">
-            <a href="#" onclick="unsaveCar('${_id}')" class="card-link">
-              Unsave
+            <a href="#" onclick="onClick('${_id}', '${type}')" class="card-link">
+              ${type}
             </a>
           </div>
         </div>
       </div>
     </div>`;
 
-  collectionsBox.appendChild(divCard);
+  parent.appendChild(divCard);
+}
+
+async function loadPosts() {
+  const resRaw = await fetch('/getPosts');
+  const res = await resRaw.json();
+  // console.log('Got posts data frontend', res.data);
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+  }
+
+  // render card if we have data
+  if (res.data.length > 0) {
+    postsBox.innerHTML = '';
+
+    res.data.forEach((item) => {
+      renderCard(item, 'Delete', postsBox);
+    });
+  } else {
+    // user does not have anything in the collections
+    postsBox.innerHTML = "<p>You haven't yet post any data</p>";
+  }
 }
 
 async function loadCollections() {
-  // TODO: need to use actual username!!
-  const data = { username: 'xingyu711' };
-
-  const resRaw = await fetch('/getCollections', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-
+  const resRaw = await fetch('/getCollections');
   const res = await resRaw.json();
   // console.log('Got data', res.data);
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
 
   // render card if we have data
   if (res.data.length > 0) {
     collectionsBox.innerHTML = '';
 
     res.data.forEach((item) => {
-      renderCard(item);
+      renderCard(item, 'Unsave', collectionsBox);
     });
   } else {
     // user does not have anything in the collections
-    collectionsBox.innerHTML = `<p>You don't have any collections</p>`;
+    collectionsBox.innerHTML = "<p>You don't have any collections</p>";
   }
 }
 
-// call the function to load collections everytime we come to home page
-loadCollections();
+async function onClick(car_id, type) {
+  console.log('calling onClick');
+  if (type === 'Unsave') {
+    unsaveCar(car_id);
+  }
+  if (type === 'Delete') {
+    deletePost(car_id);
+  }
+}
 
 async function unsaveCar(car_id) {
-  // TODO: need to use actual username!!
-  const data = { username: 'xingyu711', car_id: car_id };
-  const response = await fetch('/unsaveCar', {
+  console.log('calling unsaveCar');
+  const data = { car_id: car_id };
+  const resRaw = await fetch('/unsaveCar', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -99,6 +126,36 @@ async function unsaveCar(car_id) {
     body: JSON.stringify(data),
   });
 
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
+
   // need to reload the collections when user delete data from collections
   loadCollections();
 }
+
+async function deletePost(car_id) {
+  const data = { car_id: car_id };
+  const resRaw = await fetch('/deletePost', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign('/signin.html');
+    return;
+  }
+
+  // need to reload the collections when user delete data from collections
+  loadPosts();
+}
+
+// call the functions to get user's collections and posts everytime when loading home page
+loadCollections();
+loadPosts();

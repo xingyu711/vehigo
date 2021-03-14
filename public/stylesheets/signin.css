@@ -51,3 +51,11 @@ img {
 a {
   color: #3479b0;
 }
+
+.alert-danger {
+  text-align: center;
+  height: 40px;
+  padding: 5px;
+  display: none;
+  font-size: 20px;
+}

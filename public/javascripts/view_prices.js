@@ -1,4 +1,4 @@
-const contentBox = document.querySelector('.content-box');
+const contentBox = document.querySelector(".content-box");
 
 function renderCard(item) {
   const {
@@ -17,8 +17,8 @@ function renderCard(item) {
   const yearTrunc = Math.trunc(year);
   const odometerTrunc = Math.trunc(odometer);
 
-  const divCard = document.createElement('div');
-  divCard.className = 'card car-card';
+  const divCard = document.createElement("div");
+  divCard.className = "card car-card";
 
   divCard.innerHTML = `
     <div class="card-body">
@@ -58,11 +58,16 @@ function renderCard(item) {
 }
 
 async function loadData() {
-  const resRaw = await fetch('/getData');
+  const resRaw = await fetch("/getData");
   const res = await resRaw.json();
 
-  console.log('Got data', res.data);
-  contentBox.innerHTML = '';
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign("/signin.html");
+    return;
+  }
+
+  contentBox.innerHTML = "";
 
   res.data.forEach((item) => {
     renderCard(item);
@@ -72,14 +77,64 @@ async function loadData() {
 loadData();
 
 async function saveCar(car_id) {
-  // TODO: need to use actual username!!
-  const data = { username: 'xingyu711', car_id: car_id };
-  const response = await fetch('/saveCar', {
-    method: 'POST',
+  const data = { car_id: car_id };
+  const resRaw = await fetch("/saveCar", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
-  console.log(response.json());
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    window.location.assign("/signin.html");
+    return;
+  }
+}
+
+async function onSearchButtonClick() {
+  var searchInputValue = document.getElementById("input-box").value;
+  var year = document.getElementById("select-year").value;
+  var mileage = document.getElementById("select-mileage").value;
+
+  // debug console log
+  console.log(
+    "search=",
+    searchInputValue,
+    " year=",
+    year,
+    " mileage=",
+    mileage
+  );
+
+  // handle empty input
+  if (searchInputValue == null) {
+    return;
+  }
+
+  const data = { inputValue: searchInputValue, year: year, mileage: mileage };
+
+  const resRaw = await fetch("/searchCar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const res = await resRaw.json();
+  console.log(res);
+
+  // if user is not logged in
+  if (resRaw.status === 401) {
+    alert("Cannot find collection!");
+    return;
+  }
+
+  contentBox.innerHTML = "";
+
+  res.data.forEach((item) => {
+    renderCard(item);
+  });
 }

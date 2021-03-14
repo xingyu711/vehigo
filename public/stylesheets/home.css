@@ -88,3 +88,7 @@ h4 {
 .upper {
   text-transform: uppercase;
 }
+
+.success-message {
+  margin-top: 10px;
+}
