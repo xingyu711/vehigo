@@ -1,12 +1,14 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, maxKey } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const DB_NAME = 'car_prices_app';
 const uri = `mongodb+srv://test_user:password_test@cluster0.aijdj.mongodb.net/${DB_NAME}?retryWrites=true&writeConcern=majority`;
 
 // TODO: Add pagination when rendering data
-async function getData() {
-  const dataArray = [];
+async function getData(startValue) {
+  const returnVal = {};
   let client;
+
+  const nPerPage = 10;
 
   try {
     client = new MongoClient(uri, { useUnifiedTopology: true });
@@ -15,19 +17,30 @@ async function getData() {
     const db = client.db(DB_NAME);
     const cars = db.collection('cars');
 
-    // query all data
-    const query = {};
+    // range query - pagination
+    let queryResult;
+    if (!startValue) {
+      queryResult = await cars
+        .find({})
+        .sort({ _id: -1 })
+        .limit(nPerPage + 1)
+        .toArray();
+    } else {
+      queryResult = await cars
+        .find({ _id: { $lt: new ObjectId(startValue) } })
+        .sort({ _id: -1 })
+        .limit(nPerPage + 1)
+        .toArray();
+    }
 
-    const findResult = await cars.find(query).limit(10);
+    // set return value
+    const queryLength = queryResult.length;
+    returnVal.hasMore = queryLength == nPerPage + 1;
+    returnVal.data = queryResult.slice(0, nPerPage);
+    returnVal.endValue =
+      queryResult[Math.min(queryLength - 1, nPerPage - 1)]._id;
 
-    await findResult.forEach((item) => {
-      // ignoring these data that have incorrect price value
-      if (item.price != '0') {
-        dataArray.push(item);
-      }
-    });
-
-    return dataArray;
+    return returnVal;
   } finally {
     client.close();
   }

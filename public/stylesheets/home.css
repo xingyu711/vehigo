@@ -24,7 +24,7 @@ nav {
 
 .content-box {
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .search-box {
@@ -65,8 +65,16 @@ label {
   background-color: #609fd0;
   border: #609fd0;
   color: white;
-  width: 30%;
+  width: 120px;
   margin-top: 30px;
+}
+
+.button-container {
+  display: none;
+}
+
+.load-more-button {
+  margin-bottom: 30px;
 }
 
 .submit-btn:active,
