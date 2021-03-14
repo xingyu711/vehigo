@@ -1,6 +1,6 @@
-const { MongoClient } = require('mongodb');
-const ObjectId = require('mongodb').ObjectId;
-const DB_NAME = 'car_prices_app';
+const { MongoClient } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
+const DB_NAME = "car_prices_app";
 const uri = `mongodb+srv://test_user:password_test@cluster0.aijdj.mongodb.net/${DB_NAME}?retryWrites=true&writeConcern=majority`;
 
 // TODO: Add pagination when rendering data
@@ -13,7 +13,7 @@ async function getData() {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const cars = db.collection('cars');
+    const cars = db.collection("cars");
 
     // query all data
     const query = {};
@@ -22,7 +22,7 @@ async function getData() {
 
     await findResult.forEach((item) => {
       // ignoring these data that have incorrect price value
-      if (item.price != '0') {
+      if (item.price != "0") {
         dataArray.push(item);
       }
     });
@@ -41,7 +41,7 @@ async function addToCollections(username, carId) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection('users');
+    const users = db.collection("users");
 
     // filter using username
     const filter = { username: username };
@@ -69,7 +69,7 @@ async function deleteFromCollections(username, carId) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection('users');
+    const users = db.collection("users");
 
     // filter using username
     const filter = { username: username };
@@ -103,8 +103,8 @@ async function getUserCollections(username) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection('users');
-    const cars = db.collection('cars');
+    const users = db.collection("users");
+    const cars = db.collection("cars");
 
     // filter using username and get saved cars ids
     const filter = { username: username };
