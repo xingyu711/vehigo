@@ -61,7 +61,6 @@ function renderCard(item, type, parent) {
 async function loadPosts() {
   const resRaw = await fetch('/getPosts');
   const res = await resRaw.json();
-  // console.log('Got posts data frontend', res.data);
 
   // if user is not logged in
   if (resRaw.status === 401) {
@@ -84,7 +83,6 @@ async function loadPosts() {
 async function loadCollections() {
   const resRaw = await fetch('/getCollections');
   const res = await resRaw.json();
-  // console.log('Got data', res.data);
 
   // if user is not logged in
   if (resRaw.status === 401) {
@@ -106,7 +104,6 @@ async function loadCollections() {
 }
 
 async function onClick(car_id, type) {
-  console.log('calling onClick');
   if (type === 'Unsave') {
     unsaveCar(car_id);
   }
@@ -116,7 +113,6 @@ async function onClick(car_id, type) {
 }
 
 async function unsaveCar(car_id) {
-  console.log('calling unsaveCar');
   const data = { car_id: car_id };
   const resRaw = await fetch('/unsaveCar', {
     method: 'POST',

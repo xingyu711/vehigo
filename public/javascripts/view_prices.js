@@ -1,12 +1,12 @@
 const contentBox = document.querySelector('.content-box');
-const buttonContainer = document.querySelector('.button-container');
+const buttonContainer = document.querySelector('.load-button-container');
 const formSearch = document.querySelector('#form-search');
 
-let queryStartValue;
-let manufacturer;
-let model;
-let year;
-let odometer;
+let queryStartValue = '';
+let manufacturer = '';
+let model = '';
+let year = '';
+let odometer = '';
 
 function renderCard(item) {
   const {
@@ -139,8 +139,6 @@ async function onSearchButtonClick(event) {
   model = formData.get('model');
   year = formData.get('year');
   odometer = formData.get('odometer');
-
-  console.log(queryStartValue, manufacturer, model, year, odometer);
 
   const resRaw = await fetch(
     `/getData?manufacturer=${manufacturer}&model=${model}&year=${year}&odometer=${odometer}`

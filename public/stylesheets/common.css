@@ -1,11 +1,24 @@
 body {
+  font: 14px;
   color: #454552;
-  overflow: hidden;
 }
 
 nav {
   height: 56px;
   font-size: 16px;
+}
+
+a {
+  color: #3479b0;
+}
+
+h4 {
+  margin-bottom: 30px;
+}
+
+h5 {
+  text-transform: capitalize;
+  font-weight: normal;
 }
 
 .outer-container {
@@ -27,38 +40,14 @@ nav {
   margin-bottom: 10px;
 }
 
-.search-box {
-  margin-top: 20px;
-}
-
-.car-details {
-  margin-top: 10px;
-  text-transform: capitalize;
-}
-
-a {
-  color: #609fd0;
-}
-
 .car-card {
   margin-bottom: 20px;
   text-align: left;
 }
 
-h5 {
+.car-details {
+  margin-top: 10px;
   text-transform: capitalize;
-  font-weight: normal;
-}
-
-label {
-  width: 120px;
-  text-align: left;
-}
-
-.car-input {
-  width: 60%;
-  min-width: 350px;
-  max-width: 500px;
 }
 
 .btn-primary {
@@ -67,27 +56,10 @@ label {
   color: white;
 }
 
-.submit-btn {
-  width: 120px;
-  margin-top: 30px;
-}
-
-.button-container {
-  display: none;
-}
-
-.load-more-button {
-  margin-bottom: 30px;
-}
-
 .btn-primary:active,
 .btn-primary:focus,
 .btn-primary:hover {
   background-color: #3479b0;
-}
-
-h4 {
-  margin-bottom: 30px;
 }
 
 .navbar-light .navbar-nav .nav-link.active,
@@ -98,20 +70,4 @@ h4 {
 
 .upper {
   text-transform: uppercase;
-}
-
-.success-message {
-  margin-top: 10px;
-}
-
-.input-container {
-  padding: 0px 5px;
-}
-
-.input-container-left {
-  padding-right: 5px;
-}
-
-.input-container-right {
-  padding-left: 5px;
 }

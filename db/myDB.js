@@ -214,8 +214,6 @@ async function deleteFromPosts(username, carId) {
     // delete by car id
     const query = { _id: new ObjectId(carId) };
     const result = await cars.deleteOne(query);
-
-    // TODO: also delete this document from ANY user's collections if exists
   } finally {
     client.close();
   }

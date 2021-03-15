@@ -18,8 +18,6 @@ async function onFormCarSubmit(event) {
     state: formData.get('state'),
   };
 
-  console.log('Post info:', data);
-
   const resRaw = await fetch('/postInfo', {
     method: 'POST',
     headers: {

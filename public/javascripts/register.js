@@ -4,7 +4,6 @@ const passwordInput = document.querySelector('#passwordInput');
 const alert = document.querySelector('.alert');
 
 async function onFormRegisterSubmit(event) {
-  console.log('calling onFormRegisterSubmit');
   event.preventDefault();
 
   const formData = new FormData(formRegister);

@@ -1,0 +1,23 @@
+.search-box {
+  margin-top: 20px;
+}
+
+.load-button-container {
+  display: none;
+}
+
+.load-more-button {
+  margin-bottom: 30px;
+}
+
+.search-input-container {
+  padding: 0px 5px;
+}
+
+.search-input-container-left {
+  padding-right: 5px;
+}
+
+.search-input-container-right {
+  padding-left: 5px;
+}

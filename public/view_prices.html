@@ -11,7 +11,8 @@
       integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./stylesheets/home.css" />
+    <link rel="stylesheet" href="./stylesheets/common.css" />
+    <link rel="stylesheet" href="./stylesheets/view_prices.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -72,7 +73,7 @@
       <div class="col-12 search-box">
         <form id="form-search" onsubmit="onSearchButtonClick(event)">
           <div class="row">
-            <div class="mb-3 col-3 input-container-left">
+            <div class="mb-3 col-3 search-input-container-left">
               <input
                 type="text"
                 class="form-control"
@@ -80,7 +81,7 @@
                 placeholder="Make"
               />
             </div>
-            <div class="mb-3 col-4 input-container">
+            <div class="mb-3 col-4 search-input-container">
               <input
                 type="text"
                 class="form-control"
@@ -88,7 +89,7 @@
                 placeholder="Model"
               />
             </div>
-            <div class="mb-3 col-2 input-container">
+            <div class="mb-3 col-2 search-input-container">
               <select class="form-select" name="year">
                 <option value="">Year</option>
                 <option value="1980">1980</option>
@@ -135,7 +136,7 @@
                 <option value="2021">2021</option>
               </select>
             </div>
-            <div class="mb-3 col-2 input-container">
+            <div class="mb-3 col-2 search-input-container">
               <select class="form-select" name="odometer">
                 <option value="">Max Mileage</option>
                 <option value="10000">10000</option>
@@ -154,8 +155,13 @@
                 <option value="140000">140000</option>
               </select>
             </div>
-            <div class="mb-3 col-1 input-container-right">
-              <button class="btn btn-primary" type="submit" id="button-search">
+            <div class="mb-3 col-1 search-input-container-right">
+              <button
+                class="btn btn-primary"
+                type="submit"
+                id="button-search"
+                onsubmit=""
+              >
                 Search
               </button>
             </div>
@@ -163,10 +169,10 @@
         </form>
       </div>
       <div class="col-12 content-box">
-        <h2>Loading...</h2>
+        <h4>Loading...</h4>
       </div>
 
-      <div class="col-12 button-container">
+      <div class="col-12 load-button-container">
         <button
           type="submit"
           class="btn btn-outline-secondary load-more-button"

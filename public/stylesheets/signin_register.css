@@ -1,6 +1,11 @@
-body {
-  color: #454552;
-  font-size: 14px;
+p {
+  font-size: 22px;
+  margin-top: 15px;
+}
+
+img {
+  width: 60%;
+  padding-bottom: 30px;
 }
 
 .input-group {
@@ -10,17 +15,8 @@ body {
 }
 
 .btn {
-  background-color: #609fd0;
-  border: #609fd0;
-  color: white;
   width: 300px;
   margin-top: 20px;
-}
-
-.btn:active,
-.btn:focus,
-.btn:hover {
-  background-color: #3479b0;
 }
 
 .container {
@@ -34,22 +30,8 @@ body {
   text-align: center;
 }
 
-p {
-  font-size: 22px;
-  margin-top: 15px;
-}
-
-img {
-  width: 60%;
-  padding-bottom: 30px;
-}
-
 .footer-text {
   margin-top: 10px;
-}
-
-a {
-  color: #3479b0;
 }
 
 .alert-danger {

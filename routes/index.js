@@ -27,6 +27,8 @@ router.get('/getData', async (req, res) => {
     const year = req.query.year;
     const odometer = req.query.odometer;
 
+    console.log('backend', startValue, manufacturer, model, year, odometer);
+
     const dataObj = await myDB.getData(
       startValue,
       manufacturer && manufacturer.toLowerCase(),
@@ -110,6 +112,7 @@ router.post('/postInfo', async (req, res) => {
     dataObject.price = parseInt(dataJson.price);
     dataObject.odometer = parseInt(dataJson.odometer);
     dataObject.fuel = dataJson.manufacturer.toLowerCase();
+    dataObject.transmission = dataJson.transmission.toLowerCase();
     dataObject.drive = dataJson.drive.toLowerCase();
     dataObject.state = dataJson.state.toLowerCase();
     dataObject.username = username;
