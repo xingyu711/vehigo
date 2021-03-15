@@ -20,10 +20,12 @@ router.get("/getData", async (req, res) => {
     if (!auth(req, res)) {
       return;
     }
-    const dataArray = await myDB.getData();
-    res.status(200).send({ data: dataArray });
+    const startValue = req.query.startValue;
+
+    const dataObj = await myDB.getData(startValue);
+    res.status(200).send({ dataObj });
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -40,7 +42,7 @@ router.post("/saveCar", async (req, res) => {
     await myDB.addToCollections(username, carId);
     res.sendStatus(200);
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -57,7 +59,7 @@ router.post("/unsaveCar", async (req, res) => {
     await myDB.deleteFromCollections(username, carId);
     res.sendStatus(200);
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -73,7 +75,7 @@ router.get("/getCollections", async (req, res) => {
     const savedCars = await myDB.getUserCollections(username);
     res.status(200).send({ data: savedCars });
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -95,7 +97,7 @@ router.post("/postInfo", async (req, res) => {
 
     res.sendStatus(200);
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -112,7 +114,7 @@ router.post("/deletePost", async (req, res) => {
     await myDB.deleteFromPosts(username, carId);
     res.sendStatus(200);
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -128,7 +130,7 @@ router.get("/getPosts", async (req, res) => {
 
     res.status(200).send({ data: userPosts });
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -153,7 +155,7 @@ router.post("/userLogin", async (req, res) => {
       }
     }
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -177,7 +179,7 @@ router.post("/userRegister", async (req, res) => {
       }
     });
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -190,7 +192,7 @@ router.get("/userLogout", async (req, res) => {
     delete req.session.username;
     res.sendStatus(200);
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -205,7 +207,7 @@ router.get("/getPersonName", async (req, res) => {
     const displayName = await myDB.getUserDisplayName(username);
     res.status(200).send({ displayName: displayName });
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });
@@ -223,7 +225,7 @@ router.post("/searchCar", async (req, res) => {
     const dataArray = await myDB.searchCar(inputValue, year, mileage);
     res.status(200).send({ data: dataArray });
   } catch (e) {
-    console.log("Error", e);
+    console.error("Error", e);
     res.status(400).send({ err: e });
   }
 });

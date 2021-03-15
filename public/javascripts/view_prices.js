@@ -1,4 +1,5 @@
 const contentBox = document.querySelector(".content-box");
+const buttonContainer = document.querySelector(".button-container");
 
 function renderCard(item) {
   const {
@@ -57,6 +58,8 @@ function renderCard(item) {
   contentBox.appendChild(divCard);
 }
 
+let queryStartValue;
+
 async function loadData() {
   const resRaw = await fetch("/getData");
   const res = await resRaw.json();
@@ -69,12 +72,37 @@ async function loadData() {
 
   contentBox.innerHTML = "";
 
-  res.data.forEach((item) => {
+  res.dataObj.data.forEach((item) => {
     renderCard(item);
   });
+
+  queryStartValue = res.dataObj.endValue;
+
+  // determine whether load more button is needed
+  if (res.dataObj.hasMore) {
+    buttonContainer.style.display = "block";
+  }
 }
 
 loadData();
+
+async function loadMoreData() {
+  buttonContainer.style.display = "none";
+
+  const resRaw = await fetch(`/getData?startValue=${queryStartValue}`);
+  const res = await resRaw.json();
+
+  res.dataObj.data.forEach((item) => {
+    renderCard(item);
+  });
+
+  queryStartValue = res.dataObj.endValue;
+
+  // determine whether load more button is needed
+  if (res.dataObj.hasMore) {
+    buttonContainer.style.display = "block";
+  }
+}
 
 async function saveCar(car_id) {
   const data = { car_id: car_id };
