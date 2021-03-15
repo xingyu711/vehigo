@@ -1,11 +1,11 @@
-const { MongoClient } = require("mongodb");
-const ObjectId = require("mongodb").ObjectId;
-const DB_NAME = "vehigoDB";
+const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
+const DB_NAME = 'vehigoDB';
 const uri =
-  "mongodb+srv://calvinyin:yhnj1991@cluster-vehigo.7urwg.mongodb.net/vehigoDB?retryWrites=true&w=majority";
+  'mongodb+srv://calvinyin:yhnj1991@cluster-vehigo.7urwg.mongodb.net/vehigoDB?retryWrites=true&w=majority';
 
 // TODO: Add pagination when rendering data
-async function getData(startValue) {
+async function getData(startValue, manufacturer, model, year, odometer) {
   const returnVal = {};
   let client;
 
@@ -15,33 +15,44 @@ async function getData(startValue) {
     client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
 
-    console.log("getData!");
+    console.log('db', startValue, manufacturer, model, year, odometer);
 
     const db = client.db(DB_NAME);
-    const cars = db.collection("cars");
+    const cars = db.collection('cars');
+
+    // build query based on input parameters
+    let query = {};
+    if (manufacturer) {
+      query.manufacturer = manufacturer;
+    }
+    if (model) {
+      query.model = model;
+    }
+    if (year) {
+      query.year = year;
+    }
+    if (odometer) {
+      query.odometer = { $lt: odometer };
+    }
+    if (startValue) {
+      query._id = { $lt: new ObjectId(startValue) };
+    }
 
     // range query - pagination
-    let queryResult;
-    if (!startValue) {
-      queryResult = await cars
-        .find({})
-        .sort({ _id: -1 })
-        .limit(nPerPage + 1)
-        .toArray();
-    } else {
-      queryResult = await cars
-        .find({ _id: { $lt: new ObjectId(startValue) } })
-        .sort({ _id: -1 })
-        .limit(nPerPage + 1)
-        .toArray();
-    }
+    const queryResult = await cars
+      .find(query)
+      .sort({ _id: -1 })
+      .limit(nPerPage + 1)
+      .toArray();
 
     // set return value
     const queryLength = queryResult.length;
     returnVal.hasMore = queryLength == nPerPage + 1;
     returnVal.data = queryResult.slice(0, nPerPage);
-    returnVal.endValue =
-      queryResult[Math.min(queryLength - 1, nPerPage - 1)]._id;
+    if (queryLength > 0) {
+      returnVal.endValue =
+        queryResult[Math.min(queryLength - 1, nPerPage - 1)]._id;
+    }
 
     return returnVal;
   } finally {
@@ -57,7 +68,7 @@ async function addToCollections(username, carId) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection("users");
+    const users = db.collection('users');
 
     // filter using username
     const filter = { username: username };
@@ -88,7 +99,7 @@ async function deleteFromCollections(username, carId) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection("users");
+    const users = db.collection('users');
 
     // filter using username
     const filter = { username: username };
@@ -122,8 +133,8 @@ async function getUserCollections(username) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection("users");
-    const cars = db.collection("cars");
+    const users = db.collection('users');
+    const cars = db.collection('cars');
 
     if (!username) {
       return [];
@@ -159,13 +170,14 @@ async function getUserPosts(username) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const cars = db.collection("cars");
+    const cars = db.collection('cars');
 
     if (!username) {
       return [];
     }
     // query using username and get all cars posted by this user
     const query = { username: username };
+    const userPosts = await cars.find(query).toArray();
 
     return userPosts;
   } finally {
@@ -181,7 +193,7 @@ async function addCarData(carData) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const cars = db.collection("cars");
+    const cars = db.collection('cars');
 
     const result = await cars.insertOne(carData);
   } finally {
@@ -197,8 +209,8 @@ async function deleteFromPosts(username, carId) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection("users");
-    const cars = db.collection("cars");
+    const users = db.collection('users');
+    const cars = db.collection('cars');
 
     // delete by car id
     const query = { _id: new ObjectId(carId) };
@@ -218,7 +230,7 @@ async function getPassword(username) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection("users");
+    const users = db.collection('users');
 
     // get this user from db
     const currentUser = await users.findOne({ username: username });
@@ -242,13 +254,13 @@ async function registerUser(username, password, firstname, lastname) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection("users");
+    const users = db.collection('users');
 
     // check if the username already exist
     const currentUser = await users.findOne({ username: username });
     // if username not found, return
     if (currentUser != null) {
-      return "username alreay exists";
+      return 'username alreay exists';
     }
 
     // else: save the user info into db
@@ -260,7 +272,7 @@ async function registerUser(username, password, firstname, lastname) {
     };
     await users.insertOne(newUser);
 
-    return "success";
+    return 'success';
   } finally {
     client.close();
   }
@@ -274,7 +286,7 @@ async function getUserDisplayName(username) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection("users");
+    const users = db.collection('users');
 
     if (!username) {
       return {};
@@ -282,48 +294,9 @@ async function getUserDisplayName(username) {
 
     // get this user from db
     const currentUser = await users.findOne({ username: username });
-    const displayName = currentUser.first_name + " " + currentUser.last_name;
+    const displayName = currentUser.first_name + ' ' + currentUser.last_name;
 
     return displayName;
-  } finally {
-    client.close();
-  }
-}
-
-async function searchCar(inputValue, year, mileage) {
-  const dataArray = [];
-  let client;
-
-  try {
-    client = new MongoClient(uri, { useUnifiedTopology: true });
-    await client.connect();
-
-    const db = client.db(DB_NAME);
-    const cars = db.collection("cars");
-
-    // const query =
-    // [
-    //   { manufacturer: inputValue },
-    //   { year: year },
-    //   { mileage: { $st: mileage } },
-    // ];
-    // { year : year};
-
-    console.log("ready to print user Post");
-    const findResult = await cars
-      .find({
-        manufacturer: inputValue,
-        year: year,
-        odometer: { $lt: parseInt(mileage) },
-      })
-      .limit(2);
-    console.log("find result=", findResult);
-    await findResult.forEach((item) => {
-      // ignoring these data that have incorrect price value
-      dataArray.push(item);
-    });
-
-    return dataArray;
   } finally {
     client.close();
   }
@@ -340,5 +313,4 @@ module.exports = {
   getPassword,
   registerUser,
   getUserDisplayName,
-  searchCar,
 };

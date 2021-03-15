@@ -7,8 +7,8 @@ async function onFormCarSubmit(event) {
   const formData = new FormData(formCar);
 
   const data = {
-    manufacturer: formData.get('manufacturer'),
-    model: formData.get('model'),
+    manufacturer: formData.get('manufacturer').toLowerCase(),
+    model: formData.get('model').toLowerCase(),
     year: formData.get('year'),
     price: formData.get('price'),
     odometer: formData.get('odometer'),
@@ -17,6 +17,8 @@ async function onFormCarSubmit(event) {
     drive: formData.get('drive'),
     state: formData.get('state'),
   };
+
+  console.log('Post info:', data);
 
   const resRaw = await fetch('/postInfo', {
     method: 'POST',

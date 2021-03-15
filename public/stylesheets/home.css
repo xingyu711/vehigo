@@ -61,10 +61,13 @@ label {
   max-width: 500px;
 }
 
-.submit-btn {
+.btn-primary {
   background-color: #609fd0;
   border: #609fd0;
   color: white;
+}
+
+.submit-btn {
   width: 120px;
   margin-top: 30px;
 }
@@ -77,9 +80,9 @@ label {
   margin-bottom: 30px;
 }
 
-.submit-btn:active,
-.submit-btn:focus,
-.submit-btn:hover {
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:hover {
   background-color: #3479b0;
 }
 
@@ -99,4 +102,16 @@ h4 {
 
 .success-message {
   margin-top: 10px;
+}
+
+.input-container {
+  padding: 0px 5px;
+}
+
+.input-container-left {
+  padding-right: 5px;
+}
+
+.input-container-right {
+  padding-left: 5px;
 }

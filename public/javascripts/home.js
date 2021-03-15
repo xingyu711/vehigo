@@ -26,7 +26,7 @@ function renderCard(item, type, parent) {
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <h5 class="card-title">${manufacturer} ${model} ${year} - $${price}</h5>
+            <h5 class="card-title">${manufacturer} ${model} ${yearTrunc} - $${price}</h5>
           </div>
         </div>
         <div class="row">
