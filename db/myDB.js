@@ -1,8 +1,9 @@
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
+require('dotenv').config(); //call dotenv to load variables from the .env file
+
 const DB_NAME = 'vehigoDB';
-const uri =
-  'mongodb+srv://calvinyin:yhnj1991@cluster-vehigo.7urwg.mongodb.net/vehigoDB?retryWrites=true&w=majority';
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster-vehigo.7urwg.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 
 // TODO: Add pagination when rendering data
 async function getData(startValue, manufacturer, model, year, odometer) {
@@ -14,8 +15,6 @@ async function getData(startValue, manufacturer, model, year, odometer) {
   try {
     client = new MongoClient(uri, { useUnifiedTopology: true });
     await client.connect();
-
-    console.log('db', startValue, manufacturer, model, year, odometer);
 
     const db = client.db(DB_NAME);
     const cars = db.collection('cars');
