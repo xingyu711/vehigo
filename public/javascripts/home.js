@@ -76,7 +76,7 @@ async function loadPosts() {
     });
   } else {
     // user does not have anything in the collections
-    postsBox.innerHTML = "<p>You haven't yet post any data</p>";
+    postsBox.innerHTML = '<p>You do not have any posts</p>';
   }
 }
 
@@ -99,10 +99,11 @@ async function loadCollections() {
     });
   } else {
     // user does not have anything in the collections
-    collectionsBox.innerHTML = "<p>You don't have any collections</p>";
+    collectionsBox.innerHTML = '<p>You do not have any collections</p>';
   }
 }
 
+/* eslint-disable no-unused-vars */
 async function onClick(car_id, type) {
   if (type === 'Unsave') {
     unsaveCar(car_id);
@@ -111,6 +112,7 @@ async function onClick(car_id, type) {
     deletePost(car_id);
   }
 }
+/* eslint-enable no-unused-vars */
 
 async function unsaveCar(car_id) {
   const data = { car_id: car_id };

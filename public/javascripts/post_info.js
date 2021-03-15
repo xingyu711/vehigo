@@ -1,6 +1,7 @@
 const formCar = document.querySelector('#form-car');
 const successMessage = document.querySelector('#success-message');
 
+/* eslint-disable no-unused-vars */
 async function onFormCarSubmit(event) {
   event.preventDefault();
 
@@ -44,3 +45,4 @@ async function onFormCarSubmit(event) {
     successMessage.innerHTML = '';
   }
 }
+/* eslint-enable no-unused-vars */

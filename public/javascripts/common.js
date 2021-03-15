@@ -13,6 +13,7 @@ async function displayPersonName() {
   navbarUsername.innerHTML = res.displayName;
 }
 
+/* eslint-disable no-unused-vars */
 async function onLogoutButtonClick() {
   const resRaw = await fetch('/userLogout');
 

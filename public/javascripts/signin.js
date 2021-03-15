@@ -1,6 +1,7 @@
 const formLogin = document.querySelector('#form-login');
 const alert = document.querySelector('.alert');
 
+/* eslint-disable no-unused-vars */
 async function onFormLoginSubmit(event) {
   event.preventDefault();
 
@@ -41,3 +42,4 @@ async function onFormLoginSubmit(event) {
     window.location.assign('/home.html');
   }
 }
+/* eslint-enable no-unused-vars */

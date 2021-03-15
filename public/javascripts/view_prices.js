@@ -91,6 +91,7 @@ async function loadData() {
 
 loadData();
 
+/* eslint-disable no-unused-vars */
 async function loadMoreData() {
   buttonContainer.style.display = 'none';
 
@@ -164,3 +165,5 @@ async function onSearchButtonClick(event) {
     buttonContainer.style.display = 'block';
   }
 }
+
+/* eslint-enable no-unused-vars */

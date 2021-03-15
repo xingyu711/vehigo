@@ -194,7 +194,7 @@ async function addCarData(carData) {
     const db = client.db(DB_NAME);
     const cars = db.collection('cars');
 
-    const result = await cars.insertOne(carData);
+    await cars.insertOne(carData);
   } finally {
     client.close();
   }
@@ -208,12 +208,11 @@ async function deleteFromPosts(username, carId) {
     await client.connect();
 
     const db = client.db(DB_NAME);
-    const users = db.collection('users');
     const cars = db.collection('cars');
 
     // delete by car id
     const query = { _id: new ObjectId(carId) };
-    const result = await cars.deleteOne(query);
+    await cars.deleteOne(query);
   } finally {
     client.close();
   }

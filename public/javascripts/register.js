@@ -3,6 +3,7 @@ const passwordConfirmInput = document.querySelector('#passwordConfirmInput');
 const passwordInput = document.querySelector('#passwordInput');
 const alert = document.querySelector('.alert');
 
+/* eslint-disable no-unused-vars */
 async function onFormRegisterSubmit(event) {
   event.preventDefault();
 
@@ -49,3 +50,4 @@ function validatePassword() {
     passwordConfirmInput.setCustomValidity('');
   }
 }
+/* eslint-enable no-unused-vars */
