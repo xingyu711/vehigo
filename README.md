@@ -1,6 +1,6 @@
 ### App Name: VehiGo
 
-A website to help user check the prices of used cars. <br>
+A website to help people check the prices of used cars. <br>
 https://vehigo.herokuapp.com/
 
 #### App Features:
@@ -35,6 +35,7 @@ Hao Yin: https://pages.github.ccs.neu.edu/calvinyin/calvinyin.github.io/
 - HTML
 - CSS
 - Bootstrap
+- Heroku
 
 ### How to build the project:
 
@@ -44,12 +45,16 @@ Hao Yin: https://pages.github.ccs.neu.edu/calvinyin/calvinyin.github.io/
 4. Run `npm install` in terminal to install all the dependencies
 5. Run `npm run dev` to start the server and open the project in browser
 
+### Video Demo:
+
+https://drive.google.com/file/d/1hTzJgJny0NAW7qaWASfI1-teT3GY1FmW/view?usp=sharing
+
+### Slides:
+
+https://docs.google.com/presentation/d/18WjgmehhSLsgnoCz7DP8urEDH72SpxT2W3v8YVapW6I/edit?usp=sharing
+
 ### Course:
 
 - CS5610 Web Development Spring 2021
 - Northeastern University
 - Link to class homepage: https://johnguerra.co/classes/webDevelopment_spring_2021/
-
-#### Project Objective:
-
-Applying the concepts learned in class and build a basic backend application with Node + Express + Mongo and HTML5
