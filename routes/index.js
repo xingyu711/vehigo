@@ -27,8 +27,6 @@ router.get('/getData', async (req, res) => {
     const year = req.query.year;
     const odometer = req.query.odometer;
 
-    console.log('backend', startValue, manufacturer, model, year, odometer);
-
     const dataObj = await myDB.getData(
       startValue,
       manufacturer && manufacturer.toLowerCase(),
