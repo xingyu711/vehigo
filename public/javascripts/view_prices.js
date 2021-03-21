@@ -1,6 +1,7 @@
 const contentBox = document.querySelector('.content-box');
 const buttonContainer = document.querySelector('.load-button-container');
 const formSearch = document.querySelector('#form-search');
+const saved = document.querySelector('#saved');
 
 let queryStartValue = '';
 let manufacturer = '';
@@ -112,6 +113,11 @@ async function loadMoreData() {
   }
 }
 
+function showmsg(msg) {
+  divmsg.style.display = "block";
+  divmsg.innerHTML = msg;
+}
+
 async function saveCar(car_id) {
   const data = { car_id: car_id };
   const resRaw = await fetch('/saveCar', {
@@ -121,6 +127,11 @@ async function saveCar(car_id) {
     },
     body: JSON.stringify(data),
   });
+  
+  const res = await resRaw.json();
+  if (res.saved === "ok") {
+    showmsg("Saved to your collection");
+  }
 
   // if user is not logged in
   if (resRaw.status === 401) {
